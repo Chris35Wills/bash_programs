@@ -1,19 +1,23 @@
 #!/usr/bin/env bash
 
+# Creates ESRI Shapefile format vector files from csv files
+# Output shapefile will be put into the samee directory as the input files
+#
+# VARIABLES
+#	search_string -- path to csv files which have x and y columns in a known projection e.g. /path/to/files/*.csv
+#	x_col_name    -- column header containing x coordinates e.g. coord_x
+#	y_col_name    -- column header containing y coordinates e.g. coord_y
+#	proj_string="+proj=stere +lat_0=90 +lat_ts=71 +lon_0=-39 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs" -- PROJ4 string stating the coordinate system of the points
+#
+# Example usage:
+# 	sh bulk_csv_to_shp.sh -s /path/to/files/* -x coord_x -y y_coord -p '+proj=stere +lat_0=90 +lat_ts=71 +lon_0=-39 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs'
+
+
 # convert to function
 # variables (modify to pass in at command line):
 # see: http://stackoverflow.com/questions/7529856/bash-getopts-retrieving-multiple-variables-from-one-flag
 # see: http://wiki.bash-hackers.org/howto/getopts_tutorial
 # see: http://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
-
-## Example usage:
-## sh bulk_csv_to_shp.sh -s /path/to/*files -x coord_x -y y_coord -p '+proj=stere +lat_0=90 +lat_ts=71 +lon_0=-39 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs'
-
-#search_string=/path/to/*files -- path to csv files which have x and y columns in a known projection
-#x_col_name="coord_x"          -- column header containing x coordinates
-#y_col_name="coord_y"          -- column header containing y coordinates
-#proj_string="+proj=stere +lat_0=90 +lat_ts=71 +lon_0=-39 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs" -- PROJ4 string stating the coordinate system of the points
-
 while getopts ":s:x:y:p" opt; do
   case $opt in
   	s)
